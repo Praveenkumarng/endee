@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 142 76% 97%;
+    --foreground: 142 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 142 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 142 10% 10%;
+    --primary: 142 76% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 142 76% 25%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 142 30% 96%;
+    --muted-foreground: 142 10% 45%;
+    --accent: 142 30% 90%;
+    --accent-foreground: 142 10% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 142 30% 88%;
+    --input: 142 30% 88%;
+    --ring: 142 76% 45%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[#f1fdf5] text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out;
+  }
+
+  .glass {
+    @apply bg-white/30 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+
+  .card-glow {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1fdf5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}

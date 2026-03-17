@@ -1,0 +1,75 @@
+# Hyperparameters for YOLOv9 Training
+# Cotton Leaf Disease Detection
+
+# Model Configuration
+model: yolov9c.pt  # Options: yolov9c.pt, yolov9e.pt, yolov9m.pt
+
+# Dataset Configuration
+data: ../Leaf_Dataset/data.yaml
+nc: 4  # Number of classes
+names: ['Bacterial Blight', 'Fusarium Wilt', 'Healthy Leaf', 'Leaf Curl Virus']
+
+# Training Configuration
+epochs: 100
+batch: 16
+imgsz: 640
+device: ''  # '' for auto, '0' for GPU 0, 'cpu' for CPU
+workers: 8
+cache: false  # Set to true if you have enough RAM (caches images for faster training)
+
+# Optimizer Configuration
+optimizer: AdamW
+lr0: 0.01  # Initial learning rate
+lrf: 0.01  # Final learning rate (lr0 * lrf)
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+# Loss Configuration
+box: 7.5  # Box loss weight
+cls: 0.5  # Classification loss weight
+dfl: 1.5  # Distribution Focal Loss weight
+
+# Data Augmentation
+hsv_h: 0.015  # HSV-Hue augmentation (fraction)
+hsv_s: 0.7    # HSV-Saturation augmentation (fraction)
+hsv_v: 0.4    # HSV-Value augmentation (fraction)
+degrees: 0.0  # Image rotation (+/- deg)
+translate: 0.1  # Image translation (+/- fraction)
+scale: 0.5    # Image scale (+/- gain)
+shear: 0.0    # Image shear (+/- deg)
+perspective: 0.0  # Image perspective (+/- fraction), range 0-0.001
+flipud: 0.0   # Image flip up-down (probability)
+fliplr: 0.5   # Image flip left-right (probability)
+mosaic: 1.0   # Mosaic augmentation (probability)
+mixup: 0.0    # MixUp augmentation (probability)
+copy_paste: 0.0  # Copy-paste augmentation (probability)
+
+# Advanced Augmentation
+auto_augment: randaugment  # Auto augmentation policy (randaugment, autoaugment, augmix)
+erasing: 0.4  # Random erasing probability during training
+
+# Training Settings
+patience: 50  # Epochs to wait for no observable improvement for early stopping
+save_period: 10  # Save checkpoint every x epochs
+close_mosaic: 10  # Disable mosaic augmentation for final x epochs
+amp: true  # Automatic Mixed Precision training
+deterministic: true  # Whether to enable deterministic mode
+seed: 42  # Random seed for reproducibility
+
+# Validation Settings
+val: true  # Validate during training
+plots: true  # Save plots during training
+save: true  # Save checkpoints
+conf: 0.25  # Confidence threshold for validation
+iou: 0.7  # IOU threshold for NMS during validation
+max_det: 300  # Maximum number of detections per image
+
+# Project Settings
+project: runs/train
+name: cotton_disease
+exist_ok: true
+pretrained: true
+resume: false

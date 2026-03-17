@@ -1,0 +1,18 @@
+# PC Application Requirements
+
+# PyQt5 for GUI
+PyQt5==5.15.10
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.13.0
+
+# Image processing
+opencv-python==4.8.1.78
+Pillow==10.1.0
+numpy==1.24.3
+
+# HTTP client for API calls
+requests==2.31.0
+urllib3==2.1.0
+
+# Utilities
+python-dotenv==1.0.0

@@ -1,0 +1,21 @@
+# Dataset configuration for YOLOv9 training
+# Updated to use absolute paths for the cotton disease detection project
+
+# Paths to dataset splits
+train: E:/NTR/Leaf_Dataset/train/images
+val: E:/NTR/Leaf_Dataset/valid/images
+test: E:/NTR/Leaf_Dataset/test/images
+
+# Number of classes
+nc: 4
+
+# Class names
+names: ['Bacterial Blight', 'Fusarium Wilt', 'Healthy Leaf', 'Leaf Curl Virus']
+
+# Dataset information
+roboflow:
+  workspace: m-7a2lj
+  project: leaf-disease-detection-36bhu
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/m-7a2lj/leaf-disease-detection-36bhu/dataset/1
