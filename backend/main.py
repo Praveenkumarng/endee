@@ -317,6 +317,7 @@ async def get_statistics():
 class ExpertChatRequest(BaseModel):
     disease_name: str
     question: str
+    language: Optional[str] = 'en'
 
 @app.post("/ask-expert")
 async def ask_expert(request: ExpertChatRequest):
@@ -325,7 +326,11 @@ async def ask_expert(request: ExpertChatRequest):
     Searches Endee Vector DB for context and returns AI answer.
     """
     try:
-        response_text = generate_expert_response(request.disease_name, request.question)
+        response_text = generate_expert_response(
+            request.disease_name, 
+            request.question,
+            language=request.language
+        )
         return {
             "success": True,
             "answer": response_text

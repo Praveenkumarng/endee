@@ -195,6 +195,14 @@ const resources = {
             "rec.prev_preventive_sprays.desc": "Apply preventive fungicides during disease-prone seasons.",
             "rec.prev_nutrient_management.title": "Nutrient Management",
             "rec.prev_nutrient_management.desc": "Ensure balanced nutrition to maintain plant health and disease resistance.",
+
+            // Expert AI
+            "expert.title": "Ask Expert AI (Powered by Endee DB)",
+            "expert.welcome": "Hello! I see your crop might have {{disease}}. What would you like to know about treating or managing it?",
+            "expert.placeholder": "Ask about {{disease}}...",
+            "expert.searching": "Searching Endee database...",
+            "expert.error": "Sorry, I'm having trouble connecting to the expert database right now. Please ensure the backend and Endee server are running.",
+            "expert.processError": "I'm sorry, I couldn't process that response.",
         }
     },
     hi: {
@@ -388,6 +396,14 @@ const resources = {
             "rec.prev_preventive_sprays.desc": "रोग-प्रवण मौसमों के दौरान निवारक कवकनाशी लागू करें।",
             "rec.prev_nutrient_management.title": "पोषक तत्व प्रबंधन",
             "rec.prev_nutrient_management.desc": "पौधों के स्वास्थ्य और रोग प्रतिरोध को बनाए रखने के लिए संतुलित पोषण सुनिश्चित करें।",
+
+            // Expert AI
+            "expert.title": "विशेषज्ञ एआई से पूछें (Endee DB द्वारा संचालित)",
+            "expert.welcome": "नमस्ते! मुझे लगता है कि आपकी फसल में {{disease}} हो सकता है। आप इसके उपचार या प्रबंधन के बारे में क्या जानना चाहेंगे?",
+            "expert.placeholder": "{{disease}} के बारे में पूछें...",
+            "expert.searching": "Endee डेटाबेस में खोज रहे हैं...",
+            "expert.error": "क्षमा करें, मुझे अभी विशेषज्ञ डेटाबेस से जुड़ने में समस्या हो रही है। कृपया सुनिश्चित करें कि बैकएंड और Endee सर्वर चल रहे हैं।",
+            "expert.processError": "क्षमा करें, मैं उस प्रतिक्रिया को संसाधित नहीं कर सका।"
         }
     },
     te: {
@@ -581,6 +597,14 @@ const resources = {
             "rec.prev_preventive_sprays.desc": "వ్యాధి వచ్చే సీజన్లలో నివారణ శిలీంద్రనాశకాలను వర్తించండి.",
             "rec.prev_nutrient_management.title": "పోషక నిర్వహణ",
             "rec.prev_nutrient_management.desc": "మొక్కల ఆరోగ్యం మరియు వ్యాధి నిరోధకతను నిర్వహించడానికి సమతుల్య పోషణను నిర్ధారించండి.",
+
+            // Expert AI
+            "expert.title": "నిపుణుల AIని అడగండి (Endee DB ద్వారా ఆధారితం)",
+            "expert.welcome": "నమస్కారం! మీ పంటకు {{disease}} ఉండవచ్చు అని నేను చూస్తున్నాను. దీని చికిత్స లేదా నిర్వహణ గురించి మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారు?",
+            "expert.placeholder": "{{disease}} గురించి అడగండి...",
+            "expert.searching": "Endee డేటాబేస్‌లో శోధిస్తోంది...",
+            "expert.error": "క్షమించండి, ప్రస్తుతం నాకు నిపుణుల డేటాబేస్‌కు కనెక్ట్ చేయడంలో సమస్య ఉంది. దయచేసి బ్యాకెండ్ మరియు Endee సర్వర్ నడుస్తున్నాయని నిర్ధారించుకోండి.",
+            "expert.processError": "క్షమించండి, నేను ఆ ప్రతిస్పందనను ప్రాసెస్ చేయలేకపోయాను."
         }
     },
     kn: {
@@ -774,6 +798,14 @@ const resources = {
             "rec.prev_preventive_sprays.desc": "ರೋಗ-ಪೀಡಿತ ಋತುಗಳಲ್ಲಿ ತಡೆಗಟ್ಟುವ ಶಿಲೀಂಧ್ರನಾಶಕಗಳನ್ನು ಅನ್ವಯಿಸಿ.",
             "rec.prev_nutrient_management.title": "ಪೋಷಕಾಂಶ ನಿರ್ವಹಣೆ",
             "rec.prev_nutrient_management.desc": "ಸಸ್ಯದ ಆರೋಗ್ಯ ಮತ್ತು ರೋಗ ನಿರೋಧಕತೆಯನ್ನು ಕಾಪಾಡಿಕೊಳ್ಳಲು ಸಮತೋಲಿತ ಪೋಷಣೆಯನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+
+            // Expert AI
+            "expert.title": "ತಜ್ಞ AI ಅನ್ನು ಕೇಳಿ (Endee DB ನಿಂದ ನಡೆಸಲ್ಪಡುತ್ತಿದೆ)",
+            "expert.welcome": "ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಬೆಳೆಯಲ್ಲಿ {{disease}} ಇರಬಹುದು ಎಂದು ನಾನು ಗಮನಿಸುತ್ತಿದ್ದೇನೆ. ಇದರ ಚಿಕಿತ್ಸೆ ಅಥವಾ ನಿರ್ವಹಣೆಯ ಬಗ್ಗೆ ನೀವು ಏನು ತಿಳಿಯಲು ಬಯಸೂತ್ತೀರಿ?",
+            "expert.placeholder": "{{disease}} ಬಗ್ಗೆ ಕೇಳಿ...",
+            "expert.searching": "Endee ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಹುಡುಕಲಾಗುತ್ತಿದೆ...",
+            "expert.error": "ಕ್ಷಮಿಸಿ, ಸದ್ಯಕ್ಕೆ ನನಗೆ ತಜ್ಞರ ಡೇಟಾಬೇಸ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ತೊಂದರೆಯಾಗುತ್ತಿದೆ. ದಯವಿಟ್ಟು ಬ್ಯಾಕೆಂಡ್ ಮತ್ತು Endee ಸರ್ವರ್ ಚಾಲನೆಯಲ್ಲಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+            "expert.processError": "ಕ್ಷಮಿಸಿ, ಆ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ನನಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
         }
     }
 };
