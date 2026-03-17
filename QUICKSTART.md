@@ -6,6 +6,8 @@ Get the Cotton Leaf Disease Detection System running in minutes!
 
 - Python 3.10+
 - Node.js 18+
+- [Endee Vector Database](https://github.com/endee-io/endee) running locally (port 8080)
+- OpenAI API Key (for RAG Expert Chat)
 - GPU with CUDA (optional, for faster inference)
 - 8GB+ RAM
 
@@ -26,10 +28,17 @@ venv\Scripts\activate  # Windows
 
 # Install dependencies
 pip install -r requirements.txt
+pip install endee langchain sentence-transformers openai pypdf
+
+# Add your OpenAI Key (Important for AI Expert Chat)
+echo "OPENAI_API_KEY=your_key_here" >> .env
 
 # Verify model exists
 # Model should be at: backend/weights/best.pt
 dir weights\best.pt
+
+# Populate Endee Knowledge Base (Ensure Endee is running on port 8080)
+python rag/document_processor.py
 
 # Start backend server
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
