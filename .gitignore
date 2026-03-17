@@ -89,3 +89,7 @@ desktop.ini
 *.swp
 temp/
 tmp/
+
+# Dev/debug utilities (not for production)
+backend/test_setup.py
+backend/error_log.txt

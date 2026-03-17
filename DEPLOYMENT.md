@@ -41,6 +41,7 @@ DEVICE=0  # GPU device, or 'cpu'
 API_PORT=8000
 CONF_THRESHOLD=0.25
 ALLOWED_ORIGINS=https://yourdomain.com
+OPENAI_API_KEY=your_openai_api_key_here  # Required for AI Expert Chat (RAG)
 ```
 
 ### Systemd Service (Linux)
@@ -152,16 +153,27 @@ Create `docker-compose.yml`:
 version: '3.8'
 
 services:
+  endee:
+    image: endeeio/endee:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - endee_data:/var/lib/endee
+    restart: unless-stopped
+
   backend:
     build: ./backend
     ports:
       - "8000:8000"
+    depends_on:
+      - endee
     volumes:
       - ./backend/weights:/app/weights
       - ./data:/app/data
     environment:
       - DEVICE=cpu
       - MODEL_WEIGHTS=/app/weights/best.pt
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: unless-stopped
     
   frontend:
@@ -171,6 +183,9 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  endee_data:
 ```
 
 Run:
