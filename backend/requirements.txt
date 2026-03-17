@@ -28,6 +28,12 @@ aiofiles
 
 # AI/LLM for recommendations
 google-generativeai
+sentence-transformers
+openai
+endee
+langchain
+pypdf
+langchain-community
 
 # Development
 pytest

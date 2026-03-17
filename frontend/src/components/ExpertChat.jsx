@@ -6,13 +6,20 @@ import { Send, Bot, User, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const ExpertChat = ({ diseaseName }) => {
-  const { t } = useTranslation();
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: `Hello! I see your crop might have ${diseaseName}. What would you like to know about treating or managing it?` }
-  ]);
+  const { t, i18n } = useTranslation();
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Initialize/Update greeting when disease or language changes
+  useEffect(() => {
+    if (diseaseName && diseaseName !== 'Healthy Leaf' && messages.length === 0) {
+      setMessages([
+        { role: 'assistant', content: t('expert.welcome', { disease: diseaseName }) }
+      ]);
+    }
+  }, [diseaseName, t, messages.length]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,7 +39,6 @@ const ExpertChat = ({ diseaseName }) => {
     setIsLoading(true);
 
     try {
-      // In production, configure API URL properly or use existing axios instance
       const response = await fetch('http://localhost:8000/ask-expert', {
         method: 'POST',
         headers: {
@@ -40,7 +46,8 @@ const ExpertChat = ({ diseaseName }) => {
         },
         body: JSON.stringify({
           disease_name: diseaseName,
-          question: userMsg
+          question: userMsg,
+          language: i18n.language
         })
       });
 
@@ -52,13 +59,13 @@ const ExpertChat = ({ diseaseName }) => {
       
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: data.answer || "I'm sorry, I couldn't process that response." 
+        content: data.answer || t('expert.processError')
       }]);
     } catch (error) {
       console.error('Error fetching expert response:', error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: "Sorry, I'm having trouble connecting to the expert database right now. Please ensure the backend and Endee server are running." 
+        content: t('expert.error')
       }]);
     } finally {
       setIsLoading(false);
@@ -70,16 +77,16 @@ const ExpertChat = ({ diseaseName }) => {
   }
 
   return (
-    <Card className="h-full flex flex-col mt-6">
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bot className="w-5 h-5 text-primary" />
-          Ask Expert AI (Powered by Endee DB)
+          {t('expert.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col flex-1 pb-4">
         {/* Chat window */}
-        <div className="flex-1 overflow-y-auto min-h-[250px] max-h-[400px] mb-4 space-y-4 pr-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto min-h-[400px] mb-4 space-y-4 pr-2 custom-scrollbar">
           {messages.map((msg, idx) => (
             <div 
               key={idx} 
@@ -106,7 +113,7 @@ const ExpertChat = ({ diseaseName }) => {
               </div>
               <div className="p-3 rounded-xl bg-secondary text-secondary-foreground rounded-tl-none flex items-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Searching Endee database...</span>
+                <span className="text-sm text-muted-foreground">{t('expert.searching')}</span>
               </div>
             </div>
           )}
@@ -118,7 +125,7 @@ const ExpertChat = ({ diseaseName }) => {
           <Input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Ask about ${diseaseName}...`}
+            placeholder={t('expert.placeholder', { disease: diseaseName })}
             disabled={isLoading}
             className="flex-1"
           />
