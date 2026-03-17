@@ -1,139 +1,93 @@
-<p align="center">
-  <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo-light.svg">
-      <img height="100" alt="Endee" src="docs/assets/logo-dark.svg">
-  </picture>
-</p>
+# Cotton Leaf Disease Detection & Expert AI (Powered by Endee Vector DB)
 
-<p align="center">
-    <b>High-performance open-source vector database for AI search, RAG, semantic search, and hybrid retrieval.</b>
-</p>
+![Cotton Disease Detection](https://img.shields.io/badge/Accuracy->90%25-success)
+![Endee](https://img.shields.io/badge/Vector_DB-Endee-blueviolet)
 
-<p align="center">
-    <a href="./docs/getting-started.md"><img src="https://img.shields.io/badge/Quick_Start-Local_Setup-success?style=flat-square" alt="Quick Start"></a>
-    <a href="https://docs.endee.io/quick-start"><img src="https://img.shields.io/badge/Docs-Quick_Start-success?style=flat-square" alt="Docs"></a>
-    <a href="https://github.com/endee-io/endee/blob/master/LICENSE"><img src="https://img.shields.io/github/license/endee-io/endee?style=flat-square" alt="License"></a>
-    <a href="https://discord.gg/5HFGqDZQE3"><img src="https://img.shields.io/badge/Discord-Join_Chat-5865F2?logo=discord&style=flat-square" alt="Discord"></a>
-    <a href="https://endee.io/"><img src="https://img.shields.io/badge/Website-Endee-111111?style=flat-square" alt="Website"></a>
-    <!-- <a href="https://endee.io/benchmarks"><img src="https://img.shields.io/badge/Benchmarks-Coming_Soon-1F8B4C?style=flat-square" alt="Benchmarks"></a> -->
-    <!-- <a href="https://endee.io/cloud"><img src="https://img.shields.io/badge/Cloud-Coming_Soon-2496ED?style=flat-square" alt="Cloud"></a> -->
-</p>
+This project was built for the **Tap Academy / Endee.io** Hiring Evaluation. It is a full-stack, real-time disease detection system for cotton leaves that incorporates an **Agentic AI Workflow (Retrieval-Augmented Generation)** to assist farmers with localized treatment plans.
 
-<p align="center">
-<strong><a href="./docs/getting-started.md">Quick Start</a> • <a href="#why-endee">Why Endee</a> • <a href="#use-cases">Use Cases</a> • <a href="#features">Features</a> • <a href="#api-and-clients">API and Clients</a> • <a href="#docs-and-links">Docs</a> • <a href="#community-and-contact">Contact</a></strong>
-</p>
+## 🌟 Project Overview
 
-# Endee: Open-Source Vector Database for AI Search
+The core application uses a custom-trained YOLOv9 model to detect four classes of cotton leaf conditions in real-time (Bacterial Blight, Fusarium Wilt, Leaf Curl Virus, and Healthy Leaf).
 
-**Endee** is a high-performance open-source vector database built for AI search and retrieval workloads. It is designed for teams building **RAG pipelines**, **semantic search**, **hybrid search**, recommendation systems, and filtered vector retrieval APIs that need production-oriented performance and control.
+**The Endee Integration (RAG):**
+We elevated the project from a simple computer vision tool to a comprehensive agricultural assistant by integrating the **Endee Vector Database**. 
+When a disease is detected, users can query the **Expert AI Chatbot**. The backend uses Endee to perform a semantic search over a knowledge base of agricultural documents, retrieving the exact treatment protocols, pesticide recommendations, and environmental controls for that specific disease. This context is then fed to an LLM to generate a precise, context-aware answer for the farmer.
 
-Endee combines vector search with filtering, sparse retrieval support, backup workflows, and deployment flexibility across local builds and Docker-based environments. The project is implemented in C++ and optimized for modern CPU targets, including AVX2, AVX512, NEON, and SVE2.
+## 🏗️ System Design
 
-If you want the fastest path to evaluate Endee locally, start with the [Getting Started guide](./docs/getting-started.md) or the hosted docs at [docs.endee.io](https://docs.endee.io/quick-start).
-
-## Why Endee
-
-- Built as a dedicated vector database for AI applications, search systems, and retrieval-heavy workloads.
-- Supports dense vector retrieval plus sparse search capabilities for hybrid search use cases.
-- Includes payload filtering for metadata-aware retrieval and application-specific query logic.
-- Ships with operational features already documented in this repo, including backup flows and runtime observability.
-- Offers flexible deployment paths: local scripts, manual builds, Docker images, and prebuilt registry images.
-
-## Getting Started
-
-The full installation, build, Docker, runtime, and authentication instructions are in [docs/getting-started.md](./docs/getting-started.md).
-
-Fastest local path:
-
-```bash
-chmod +x ./install.sh ./run.sh
-./install.sh --release --avx2
-./run.sh
+```mermaid
+graph TD
+    User([Farmer/User]) -->|Uploads Image| WebApp(React Frontend)
+    WebApp -->|Image Data| FastAPI(FastAPI Backend)
+    FastAPI -->|Inference| YOLO(YOLOv9 Model)
+    YOLO -->|Disease Type| FastAPI
+    FastAPI -->|Display Results| WebApp
+    
+    User -->|Asks Question| ChatUI(ExpertChat UI)
+    ChatUI -->|Query + Disease Context| ExpertAPI(/ask-expert Endpoint)
+    ExpertAPI -->|"1. Embed Query"| Embedding(Sentence Transformers)
+    Embedding -->|"2. Semantic Search"| Endee[(Endee Vector DB)]
+    Endee -->|"3. Retreat Context"| ExpertAPI
+    ExpertAPI -->|"4. Send Context + Prompt"| LLM(OpenAI/LLM)
+    LLM -->|"5. Generate Answer"| ExpertAPI
+    ExpertAPI -->|Return Final Answer| ChatUI
 ```
 
-The server listens on port `8080`. For detailed setup paths, supported operating systems, CPU optimization flags, Docker usage, and authentication examples, use:
+## 🔹 How Endee is Used
 
-- [Getting Started](./docs/getting-started.md)
-- [Hosted Quick Start Docs](https://docs.endee.io/quick-start)
+1. **Document Ingestion**: Agricultural PDFs and text files are processed, chunked, and embedded using `sentence-transformers` (all-MiniLM-L6-v2) via `backend/rag/document_processor.py`.
+2. **Vector Storage**: These 384-dimensional embeddings, along with their text metadata, are inserted into the Endee Vector Database collection named `cotton_knowledge_base`.
+3. **Semantic RAG Search**: In `backend/rag/expert_chatter.py`, when a user asks "How do I treat this?", the question is embedded and Endee is queried iteratively. The top matches (highest cosine similarity) are returned and injected into the LLM system prompt.
 
-## Use Cases
+## 🚀 Setup Instructions
 
-### RAG and AI Retrieval
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- [Endee Vector Database](https://github.com/endee-io/endee) running locally (e.g., via Docker container on port 8080)
+- OpenAI API Key (for the LLM response generation)
 
-Use Endee as the retrieval layer for question answering, chat assistants, copilots, and other RAG applications that need fast vector search with metadata-aware filtering.
+### 1. Vector Database Setup
+Follow the [Official Endee repo instructions](https://github.com/endee-io/endee) to start the Endee server. By default, our scripts expect it on `http://localhost:8080`.
 
-### Agentic AI and AI Agent Memory
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate  # On Windows. Use source venv/bin/activate on Mac/Linux
 
-Use Endee as the long-term memory and context retrieval layer for AI agents built with frameworks like LangChain, CrewAI, AutoGen, and LlamaIndex. Store and retrieve past observations, tool outputs, conversation history, and domain knowledge mid-execution with low-latency filtered vector search, so your autonomous agents get the right context without stalling their reasoning loop.
+# Install dependencies
+pip install -r requirements.txt
+pip install endee langchain sentence-transformers openai pypdf
 
-### Semantic Search
+# Add your OpenAI Key
+echo "OPENAI_API_KEY=your_key_here" >> .env
 
-Build semantic search experiences for documents, products, support content, and knowledge bases using vector similarity search instead of exact keyword-only matching.
+# Start FastAPI server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-### Hybrid Search
+### 3. Populate Endee Knowledge Base
+Before using the chat, you need to populate Endee with agricultural contexts:
+```bash
+# Add some agricultural PDF/Text guides to backend/data/agricultural_docs
+# Then run the ingestor:
+python backend/rag/document_processor.py
+```
 
-Combine dense retrieval, sparse vectors, and filtering to improve relevance for search workflows where both semantic understanding and term-level precision matter.
+### 4. Frontend Setup (New Terminal)
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Recommendations and Matching
+The Web App will be available at `http://localhost:3000`.
 
-Support recommendation, similarity matching, and nearest-neighbor retrieval workflows across text, embeddings, and other high-dimensional representations.
+## 📦 Project Structure Highlight
+- `backend/rag/document_processor.py`: Endee insertion logic.
+- `backend/rag/expert_chatter.py`: Endee semantic search and LLM context injection.
+- `frontend/src/components/ExpertChat.jsx`: The RAG chat interface.
 
-## Features
-
-- **Vector search** for AI retrieval and semantic similarity workloads.
-- **Hybrid retrieval support** with sparse vector capabilities documented in [docs/sparse.md](./docs/sparse.md).
-- **Payload filtering** for structured retrieval logic documented in [docs/filter.md](./docs/filter.md).
-- **Backup APIs and flows** documented in [docs/backup-system.md](./docs/backup-system.md).
-- **Operational logging and instrumentation** documented in [docs/logs.md](./docs/logs.md) and [docs/mdbx-instrumentation.md](./docs/mdbx-instrumentation.md).
-- **CPU-targeted builds** for AVX2, AVX512, NEON, and SVE2 deployments.
-- **Docker deployment options** for local and server environments.
-
-## API and Clients
-
-Endee exposes an HTTP API for managing indexes and serving retrieval workloads. The current repo documentation and examples focus on running the server directly and calling its API endpoints.
-
-Current developer entry points:
-
-- [Getting Started](./docs/getting-started.md) for local build and run flows
-- [Hosted Docs](https://docs.endee.io/quick-start) for product documentation
-- [Release Notes 1.0.0](https://github.com/endee-io/endee/releases/tag/1.0.0) for recent platform changes
-
-## Docs and Links
-
-- [Getting Started](./docs/getting-started.md)
-- [Hosted Documentation](https://docs.endee.io/quick-start)
-- [Release Notes](https://github.com/endee-io/endee/releases/tag/1.0.0)
-- [Sparse Search](./docs/sparse.md)
-- [Filtering](./docs/filter.md)
-- [Backups](./docs/backup-system.md)
-
-## Community and Contact
-
-- Join the community on [Discord](https://discord.gg/5HFGqDZQE3)
-- Visit the website at [endee.io](https://endee.io/)
-- For trademark or branding permissions, contact [enterprise@endee.io](mailto:enterprise@endee.io)
-
-## Contributing
-
-We welcome contributions from the community to help make vector search faster and more accessible for everyone.
-
-- Submit pull requests for fixes, features, and improvements
-- Report bugs or performance issues through GitHub issues
-- Propose enhancements for search quality, performance, and deployment workflows
-
-## License
-
-Endee is open source software licensed under the **Apache License 2.0**. See the [LICENSE](./LICENSE) file for full terms.
-
-## Trademark and Branding
-
-“Endee” and the Endee logo are trademarks of Endee Labs.
-
-The Apache License 2.0 does not grant permission to use the Endee name, logos, or branding in a way that suggests endorsement or affiliation.
-
-If you offer a hosted or managed service based on this software, you must use your own branding and avoid implying it is an official Endee service.
-
-## Third-Party Software
-
-This project includes or depends on third-party software components licensed under their respective open-source licenses. Use of those components is governed by their own license terms.
+---
+*Developed for the Tap Academy Hiring Evaluation.*
